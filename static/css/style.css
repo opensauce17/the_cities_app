@@ -1,0 +1,32 @@
+.heightAdder{
+    height: 110px;
+    }
+
+.card-img{
+    width: 100%!important;
+    height: 30vh!important;
+    object-fit: cover;
+    }
+
+.navbar-nav > li{
+    padding-left:10px;
+    padding-right:10px;
+    }
+
+.icon-image {
+    width:31px;
+    height:0px
+    }
+
+@media (max-width: 991px) {
+
+.navbar-nav > li{
+    padding-top:5px;
+    padding-bottom:5px;
+    }
+
+.heightAdder{
+    height: 0px;
+    }
+
+}

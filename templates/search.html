@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154720817-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-154720817-2');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="{{ url_for('static', filename='img/city_weather.ico') }}" rel="icon" sizes="any" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>The Cities App</title>
+</head>
+<body>
+
+<style>
+  #mapContainer {
+  width: 1090px;
+  height: 250px;
+}
+
+@media (max-width: 991px) {
+
+ #mapContainer{
+  display: none;
+  }
+}
+</style>
+
+<script>
+ function loadMap() {
+  var platform = new H.service.Platform({
+  'apikey': '{{ devhere }}'
+  });
+
+  var defaultLayers = platform.createDefaultLayers();
+
+  var map = new H.Map(
+    document.getElementById('mapContainer'),
+    defaultLayers.vector.normal.map,
+    {
+      zoom: 10,
+      center: { lat: {{lat}}, lng: {{lon}} }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM is ready');
+  loadMap();
+
+});
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+	         <a class="navbar-brand" href="{{ url_for('index') }}">
+             <img src="{{ url_for('static', filename='img/city_weather.svg') }}" width="50" height="50" class="d-inline-block
+             align-top" alt="">
+             </a>
+    <font>{{ city_name_upper }}</font>
+
+
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarText">
+           <ul class="navbar-nav mr-auto">
+             <li class="nav-item active">
+               <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+             </li>
+
+           </ul>
+           <span class="navbar-text">
+               <ul class="navbar-nav justify-content-center">
+                    <li class="nav-item">
+                       <button class="btn-outline-primary btn-lg" data-toggle="modal" data-target="#exampleModalMoreInfo"><a class="nav-link js-scroll-trigger text-light" href="#">Summary Of {{ city_name }}</a></button>
+                   </li>
+                 <!--  <li class="nav-item">
+                       <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalHotels"><a class="nav-link js-scroll-trigger text-light" href="#">Hotels In {{ city_name }}</a></button>
+                   </li> -->
+               <!--   <li class="nav-item">
+                       <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalLandMarks"><a class="nav-link js-scroll-trigger text-light" href="#">{{ city_name }} Landmarks</a></button>
+                   </li> -->
+               <!--    <li class="nav-item">
+                       <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalMoreInfo"><a class="nav-link js-scroll-trigger text-light" href="#">News About {{ city_name }}</a></button>
+                   </li>-->
+
+                   <li class="nav-item">
+                       <button class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#exampleModalFormCenter"><a class="nav-link js-scroll-trigger text-light" href="#">Select Another City</a></button>
+                   </li>
+                  <li class="nav-item">
+                       <button class="btn btn-outline-warning btn-lg" data-toggle="modal" data-target="#exampleModalAbout"><a class="nav-link js-scroll-trigger text-light" href="#">About The Cities App</a></button>
+                   </li>
+                  <!-- <li class="nav-item">
+                       <i class="fa fa-sign-in"></i> Login
+                   </li>
+                   <li class="nav-item">
+                       <i class="fa fa-user"></i> Subscribe
+                   </li>-->
+               </ul>
+           </span>
+         </div>
+    </nav>
+
+<!-- <div class="container">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-3 d-flex">
+            <button type="button" class="btn btn-dark">About Cape Town</button>
+        </div>
+    </div>
+</div> -->
+
+
+<!--<div class="heightAdder"></div> -->
+<div class="container">
+<div class="row justify-content-sm-center">
+  <div class="col-lg-14">
+ <br>
+  <div class="card" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+          {% if (image_url != "nopic") %}
+         <img class="card-img" src="{{ image_url }}" alt="Card image">
+          {% else %}
+         <img class="card-img" src="{{ url_for('static', filename='img/earth.jpg') }}" alt="Card image">
+  </div>
+      <br>
+           <div class="alert alert-warning">
+               <center>No image available for city <strong>{{ city_name }}</strong> </center>
+           </div>
+          {% endif %}
+
+  </div>
+</div>
+ </div>
+</div>
+
+
+<center>
+<section class="section">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 d-flex">
+
+             <div class="col-sm-12 mb-3">
+                         <div class="card h-100" style="width: 18rem;">
+                           <div class="card-header" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                               <div class="media-left">
+                                   <figure class="icon-image">
+                                        <img src="{{ url_for('static', filename='img/country_icon.png') }}" alt="Image">
+                                   </figure>
+                               </div>
+                                <h6><strong>COUNTRY</strong></h6>
+                         </div>
+                         <div class="card-body flex-fill" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                             {% if country == 'Not Available' %}
+                             <br>
+                             Not Available
+                             {% else %}
+                            <img src="https://www.countryflags.io/{{ country }}/shiny/64.png">
+                             {% endif %}
+                         </div>
+                         </div>
+                    </div>
+        </div>
+        <div class="col-lg-3 d-flex">
+
+             <div class="col-sm-12 mb-3">
+                         <div class="card h-100" style="width: 18rem;">
+                           <div class="card-header" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                               <div class="media-left">
+                                   <figure class="icon-image">
+                                        <img src="{{ url_for('static', filename='img/pop.png') }}" alt="Image">
+                                   </figure>
+                               </div>
+                                <h6><strong> POPULATION </strong></h6>
+                         </div>
+                         <div class="card-body flex-fill" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                            <span class="subtitle">{{ population }}</span>
+                         </div>
+                         </div>
+                    </div>
+        </div>
+        <div class="col-lg-3 d-flex">
+
+             <div class="col-sm-12 mb-3">
+                         <div class="card h-100" style="width: 18rem;">
+                           <div class="card-header" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                               <div class="media-left">
+                                   <figure class="icon-image">
+                                        <img src="{{ url_for('static', filename='img/coords.png') }}" alt="Image">
+                                   </figure>
+                               </div>
+                                <h6><strong>COORDINATES</strong> </h6>
+                         </div>
+                         <div class="card-body flex-fill" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                            <span class="subtitle">{{ lat }}, {{ lon }} </span>
+                         </div>
+                         </div>
+                    </div>
+        </div>
+        <div class="col-lg-3 d-flex">
+
+             <div class="col-sm-12 mb-3">
+                         <div class="card h-100" style="width: 18rem;">
+                           <div class="card-header" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                               <div class="media-left">
+                                   <figure class="icon-image">
+                                        <img src="http://openweathermap.org/img/w/{{ icon }}.png" alt="Image">
+                                   </figure>
+                               </div>
+                                <h6><strong>WEATHER</strong></h6>
+                         </div>
+                         <div class="card-body flex-fill" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                            <span class="subtitle">{{ temp }}° C</span>
+                             <br> {{ weather }}
+                         </div>
+                         </div>
+                    </div>
+        </div>
+    </div>
+
+</div>
+</section>
+</center>
+
+<!-- Modal City Submit Form -->
+<div class="modal fade" id="exampleModalFormCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Select Another City</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="/search" method="POST">
+              <div class="form-group">
+              <input type="text"  class="form-control" name="city_name"  placeholder="City Name" required>
+              </div>
+      <div class="alert alert-success" role="alert">
+          Can't think of a World City? Check out this<a href="http://ontheworldmap.com/all/cities/" target="_blank"> list</a> of Cities.
+     </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal About Form-->
+<div class="modal fade" id="exampleModalAbout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">About The Cities App</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <center> <p><strong>The Cities App</strong> is part of a portfolio suite featured on <a href="http://www.mikehyland.com" target="_blank">mikehyland.com</a></p>
+              <p>This basic app is an exercise in API consumption based on geo-location and user search criteria. The following API's are consumed in order to display city information:
+                    <ul>
+                        <li><a href="https://ipstack.com/" target="_blank">IP Stack API</a></li>
+                        <li><a href="https://developers.teleport.org/api/" target="_blank">Teleport Public API</a></li>
+                        <li><a href="https://www.countryflags.io/" target="_blank">Country Flags API</a></li>
+                        <li><a href="https://opentripmap.io/product" target="_blank">Open Trip Map API</a></li>
+                        <li><a href="https://home.openweathermap.org/" target="_blank">Open Weather API</a></li>
+                        <li><a href="https://developer.here.com/" target="_blank">Developer Here API</a></li>
+                        <li><a href="https://pypi.org/project/Wikipedia-API/" target="_blank">Wikipedia API</a></li>
+                    </ul>
+             </p>
+             <p>
+                 Since the app uses free and open API's, the data cannot be consistenlty verified. In the majority of searches, data is correct but users may find that
+                 some searche queries, mainly from the <a href="https://opentripmap.io/product" target="_blank">Open Trip Map API</a>, may return
+                 inconsistent results.
+             </p>
+             <p>
+                 Where data cannot be gathered, the app will error handle these scenarios depending on the nature of the data that cannot be gathered.
+             </p>
+             </center>
+
+          <a href="https://github.com/opensauce17/world_cities" target="_blank"><center><p><i class="fa fa-github fa-5x"></i></p></center></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal More Info -->
+<div class="modal fade bd-example-modal-lg" id="exampleModalMoreInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">The City of {{ city_name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+
+            {% for words in summary %}
+            {{ words }}<br><br>
+            {% endfor %}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row justify-content-sm-center">
+        <div class="col-lg-14">
+         <div id="mapContainer" style="box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); ">
+         </div>
+        </div>
+    </div>
+</div>
+
+<footer class="page-footer font-small blue">
+
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://mikehyland.com" target="_blank"> mikehyland.com</a>
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
